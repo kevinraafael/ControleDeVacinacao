@@ -15,7 +15,12 @@ Pessoa *list = NULL;
 void imprimeLista(Pessoa *lst)
 {
     Pessoa *p;
-    for (p = lst; p != NULL; p = p->prox)
+    /*
+    Nessa estrutura inicializo a minha lista apontando para o 
+    próximo  elemento , pois se colocar p = lst ele acaba imprimindo a cabeça
+    que não possuí conteúdo relevante.
+    */
+    for (p = lst->prox; p != NULL; p = p->prox)
     {
         printf("Pessoa de nome: %s\n", p->nome);
         printf("CPF: %d\n", p->cpf);
@@ -45,8 +50,9 @@ void insere(Pessoa *lst, char *nome, int cpf)
     cont++;
     //}
 }
+Pessoa *buscaCPF(Pessoa *lst)
 
-int main()
+    int main()
 {
 
     // Alocando espaço para  a minha lista
@@ -63,6 +69,17 @@ int main()
         scanf(" %[^\n]", nome);
         scanf("%d", &cpf);
         insere(list, nome, cpf);
+    }
+    //Ler as operações a serem realizadas na lista
+    char op, op2;
+    /*imprimir - i: Essa opção requisitar a impressão de uma pessoa
+    • remover: - r: Essa opção sinaliza a remoção de uma pessoa da lista
+    • incrementar doses - d: Essa opção sinaliza o incremento de número de doses de uma
+    pessoa da lista
+    */
+    scanf("%c", &op);
+    while (op != 'x')
+    {
     }
 
     imprimeLista(list);
