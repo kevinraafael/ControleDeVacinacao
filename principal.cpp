@@ -17,7 +17,9 @@ void imprimeLista(Pessoa *lst)
     Pessoa *p;
     for (p = lst; p != NULL; p = p->prox)
     {
-        printf("\n%s\n", p->nome);
+        printf("Pessoa de nome: %s\n", p->nome);
+        printf("CPF: %d\n", p->cpf);
+        printf("Num. de doses aplicadas : %d\n", p->nDoses);
     }
 }
 
@@ -51,15 +53,18 @@ int main()
     list = (Pessoa *)malloc(sizeof(Pessoa));
     list->prox = NULL;
 
-    char nome[101] = {"Pinheiro"};
-    int cpf = 5555;
-    // scanf(" %[^\n]", &nome);
-    insere(list, nome, cpf);
+    //Declarando variáveis a serem uitlizadas
+    char nome[101];
+    int cpf;
+    int nDoses, nPessoas;
+    scanf("%d", &nPessoas);
+    for (int i = 0; i < nPessoas; i++)
+    {
+        scanf(" %[^\n]", nome);
+        scanf("%d", &cpf);
+        insere(list, nome, cpf);
+    }
 
     imprimeLista(list);
-    printf("%d", cont);
-
-    insere(list, nome, cpf);
-    insere(list, nome, cpf);
-    insere(list, nome, cpf);
+    printf("%d\n", cont);
 }
