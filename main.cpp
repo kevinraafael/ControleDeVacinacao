@@ -1,5 +1,6 @@
 #include <cstdio>
 #include <stdlib.h>
+#include <string.h>
 
 struct Pessoa
 {
@@ -43,7 +44,8 @@ void insere(Pessoa *lst, char *nome, int cpf)
 
     // if (celula == NULL)
     //   return false; // Retorno falso pois deu erro
-    *celula->nome = *nome;
+    //*celula->nome = *nome;
+    strcpy(celula->nome, nome);
     celula->cpf = cpf;
     celula->nDoses = 0;
     celula->prox = *li; // digo que o proximo elemento dele é a propria lista
