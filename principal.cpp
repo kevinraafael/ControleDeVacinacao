@@ -16,7 +16,7 @@ void imprimeLista(Pessoa *lst)
 {
     Pessoa *p;
     /*
-    Nessa estrutura inicializo a minha lista apontando para o 
+    Nessa estrutura inicializo a minha lista apontando para o
     próximo  elemento , pois se colocar p = lst ele acaba imprimindo a cabeça
     que não possuí conteúdo relevante.
     */
@@ -34,6 +34,7 @@ void insere(Pessoa *lst, char *nome, int cpf)
     celula = (Pessoa *)malloc(sizeof(Pessoa)); // Criei um espaço para recber o conteúdo
     strcpy(celula->nome, nome);
     celula->cpf = cpf;
+    celula->nDoses = 0;
     // Para a primeira inserção da lista
     /* if (lst->prox == NULL)
     {
@@ -50,16 +51,72 @@ void insere(Pessoa *lst, char *nome, int cpf)
     cont++;
     //}
 }
-Pessoa *buscaCPF(Pessoa *lst)
+/*
+A Função busca cpf recebe minha lista e o cpf a ser encontrado
+se encontrar ela retorna o endereço do cpf , se não retorna null
+*/
+Pessoa *buscaCPF(Pessoa *lst, int cpf)
+{
+    Pessoa *p;
+    p = lst;
+    if (list == NULL)
+    {
+        return NULL;
+    }
+    while (p != NULL && p->cpf != cpf)
+    {
+        p = p->prox;
+    }
+    if (p->cpf == cpf)
+    {
+        return p;
+    }
+    else
+    {
+        return NULL;
+    }
+}
+bool removePorCPF(Pessoa *lst, int cpf)
+{
+    Pessoa *ant = NULL;
+    Pessoa *p;
 
-    int main()
+    p = buscaCPF(lst, cpf);
+    if (p != NULL && p->cpf == cpf)
+    {
+        lst = p->prox;
+        ant = p->prox;
+        free(p);
+        printf("\nAcho que removi\n");
+        return true;
+    }
+    else
+    {
+        printf("\nNao removi\n");
+
+        return false;
+    }
+}
+bool incrementaDosesPorCPF(Pessoa *lst, int cpf)
+{
+    Pessoa *p;
+    p = buscaCPF(lst, cpf);
+    if (p != NULL && p->nDoses < 2)
+    {
+        p->nDoses++;
+        return true;
+    }
+    return false;
+}
+
+int main()
 {
 
     // Alocando espaço para  a minha lista
     list = (Pessoa *)malloc(sizeof(Pessoa));
     list->prox = NULL;
-
-    //Declarando variáveis a serem uitlizadas
+    Pessoa *aux;
+    // Declarando variáveis a serem uitlizadas
     char nome[101];
     int cpf;
     int nDoses, nPessoas;
@@ -70,18 +127,39 @@ Pessoa *buscaCPF(Pessoa *lst)
         scanf("%d", &cpf);
         insere(list, nome, cpf);
     }
-    //Ler as operações a serem realizadas na lista
+    // Ler as operações a serem realizadas na lista
     char op, op2;
+
+    // Teste pra ver se vindo NULL
+    /*  aux = buscaCPF(list, 123);
+     if (aux != NULL)
+         printf(" O CPF DA BUSCA FOI ACHADO %d\n", aux->cpf);
+     else
+         printf("%p ", aux); */
+
     /*imprimir - i: Essa opção requisitar a impressão de uma pessoa
     • remover: - r: Essa opção sinaliza a remoção de uma pessoa da lista
     • incrementar doses - d: Essa opção sinaliza o incremento de número de doses de uma
     pessoa da lista
     */
-    scanf("%c", &op);
-    while (op != 'x')
-    {
-    }
-
+    printf("\nANTES DA REMOCAO \n");
     imprimeLista(list);
+    incrementaDosesPorCPF(list, 123);
+    incrementaDosesPorCPF(list, 123);
+    // incrementaDosesPorCPF(list, 123);
+    op = 'r';
+    // scanf("%c", &op);
+    //  while (op != 'x')
+    //{
+    /* if (op == 'r')
+    {
+        int cpf = 123;
+        removePorCPF(list, cpf);
+    } */
+    // printf("\n DEPOIS DA REMOCAO \n");
+    imprimeLista(list);
+
+    //}
+
     printf("%d\n", cont);
 }
