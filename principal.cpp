@@ -12,6 +12,17 @@ struct Pessoa
 int cont = 0;
 Pessoa *list = NULL;
 
+void imprimePessoa(Pessoa *p)
+{
+    if (p != NULL)
+    {
+        printf("------------\n");
+        printf("Pessoa de nome: %s\n", p->nome);
+        printf("CPF: %d\n", p->cpf);
+        printf("Num. de doses aplicadas : %d\n", p->nDoses);
+        printf("------------\n");
+    }
+}
 void imprimeLista(Pessoa *lst)
 {
     Pessoa *p;
@@ -22,9 +33,7 @@ void imprimeLista(Pessoa *lst)
     */
     for (p = lst->prox; p != NULL; p = p->prox)
     {
-        printf("Pessoa de nome: %s\n", p->nome);
-        printf("CPF: %d\n", p->cpf);
-        printf("Num. de doses aplicadas : %d\n", p->nDoses);
+        imprimePessoa(p);
     }
 }
 
@@ -76,6 +85,28 @@ Pessoa *buscaCPF(Pessoa *lst, int cpf)
         return NULL;
     }
 }
+Pessoa *buscaNome(Pessoa *lst, char *nome)
+{
+    Pessoa *p;
+    p = lst;
+    if (lst == NULL)
+    {
+        return NULL;
+    }
+    while (p != NULL && (strcmp(p->nome, nome) != 0))
+    {
+        p = p->prox;
+    }
+    if (strcmp(p->nome, nome) == 0)
+    {
+        return p;
+    }
+    else
+    {
+        return NULL;
+    }
+}
+
 bool removePorCPF(Pessoa *lst, int cpf)
 {
     Pessoa *ant = NULL;
@@ -97,10 +128,42 @@ bool removePorCPF(Pessoa *lst, int cpf)
         return false;
     }
 }
+bool removePorNome(Pessoa *lst, char *nome)
+{
+    Pessoa *ant = NULL;
+    Pessoa *p;
+    p = buscaNome(lst, nome);
+    if (p != NULL && (strcmp(p->nome, nome) == 0))
+    {
+        lst = p->prox;
+        ant = p->prox;
+        free(p);
+        printf("\nAcho que removi por nome\n");
+        return true;
+    }
+    else
+    {
+        printf("\nNao removi por nome\n");
+
+        return false;
+    }
+}
+
 bool incrementaDosesPorCPF(Pessoa *lst, int cpf)
 {
     Pessoa *p;
     p = buscaCPF(lst, cpf);
+    if (p != NULL && p->nDoses < 2)
+    {
+        p->nDoses++;
+        return true;
+    }
+    return false;
+}
+bool incrementaDosesPorNome(Pessoa *lst, char *nome)
+{
+    Pessoa *p;
+    p = buscaNome(lst, nome);
     if (p != NULL && p->nDoses < 2)
     {
         p->nDoses++;
@@ -131,21 +194,23 @@ int main()
     char op, op2;
 
     // Teste pra ver se vindo NULL
-    /*  aux = buscaCPF(list, 123);
-     if (aux != NULL)
-         printf(" O CPF DA BUSCA FOI ACHADO %d\n", aux->cpf);
-     else
-         printf("%p ", aux); */
+    char name[100] = "Kevin";
+    aux = buscaNome(list, name);
+    /* if (aux != NULL)
+        printf(" O Nome DA BUSCA FOI ACHADO %s\n", aux->nome);
+    else
+        printf("%p ", aux); */
 
     /*imprimir - i: Essa opção requisitar a impressão de uma pessoa
     • remover: - r: Essa opção sinaliza a remoção de uma pessoa da lista
     • incrementar doses - d: Essa opção sinaliza o incremento de número de doses de uma
     pessoa da lista
     */
-    printf("\nANTES DA REMOCAO \n");
-    imprimeLista(list);
-    incrementaDosesPorCPF(list, 123);
-    incrementaDosesPorCPF(list, 123);
+    // printf("\nANTES DA REMOCAO \n");
+    // imprimeLista(list);
+    // incrementaDosesPorCPF(list, 123);
+    // incrementaDosesPorNome(list, name);
+
     // incrementaDosesPorCPF(list, 123);
     op = 'r';
     // scanf("%c", &op);
