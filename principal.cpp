@@ -12,56 +12,7 @@ struct Pessoa
 
 Pessoa *list = NULL;
 
-void imprimePessoa(Pessoa *p)
-{
-    if (p != NULL)
-    {
-        printf("------------\n");
-        printf("Pessoa de nome: %s\n", p->nome);
-        printf("CPF: %d\n", p->cpf);
-        printf("Num. de doses aplicadas : %d\n", p->nDoses);
-        printf("------------\n");
-    }
-}
-void imprimeLista(Pessoa *lst)
-{
-    Pessoa *p;
-    /*
-    Nessa estrutura inicializo a minha lista apontando para o
-    próximo  elemento , pois se colocar p = lst ele acaba imprimindo a cabeça
-    que não possuí conteúdo relevante.
-    */
-    for (p = lst->prox; p != NULL; p = p->prox)
-    {
-        imprimePessoa(p);
-    }
-}
-
-void insere(Pessoa *lst, char *nome, int cpf)
-{
-    Pessoa *celula;
-    celula = (Pessoa *)malloc(sizeof(Pessoa)); // Criei um espaço para recber o conteúdo
-    strcpy(celula->nome, nome);
-    celula->cpf = cpf;
-    celula->nDoses = 0;
-    // Para a primeira inserção da lista
-    /* if (lst->prox == NULL)
-    {
-        lst->prox = celula;
-        celula->prox = NULL;
-        cont++;
-    } */
-
-    // else
-    //{
-    //   O proximo da célula vai receber o próximo da minha lista,
-    celula->prox = lst->prox; //
-    list->prox = celula;
-
-    //}
-}
-/*
-A Função busca cpf recebe minha lista e o cpf a ser encontrado
+/*A Função busca cpf recebe minha lista e o cpf a ser encontrado
 se encontrar ela retorna o endereço do cpf , se não retorna null
 */
 Pessoa *buscaCPF(Pessoa *lst, int cpf)
@@ -86,14 +37,13 @@ Pessoa *buscaCPF(Pessoa *lst, int cpf)
 Pessoa *buscaNome(Pessoa *lst, char *nome)
 {
     Pessoa *p;
-    p = lst;
+    p = lst->prox;
     if (lst == NULL)
     {
         return NULL;
     }
     while (p != NULL)
     {
-
         if (strcmp(p->nome, nome) == 0)
         {
             return p;
@@ -103,46 +53,51 @@ Pessoa *buscaNome(Pessoa *lst, char *nome)
 
     return NULL;
 }
-
-// bool removePorCPF(Pessoa *lst, int cpf)
-//{
-/*  Pessoa *p = buscaCPF(lst, cpf);
- Pessoa *aux = list;
- Pessoa *ant = NULL;
- if (p != NULL)
- {
-     while (aux->prox != &&aux->cpf != p->cpf)
-     {
-         aux = aux->prox;
-     }
- } */
-/* Pessoa *lixo;
-Pessoa *p = buscaCPF(lst, cpf);
-if (p != NULL && p->prox != NULL)
+void imprimePessoa(Pessoa *p)
 {
-    lixo = p->prox;
-    p->prox = lst->prox;
-    free(lixo);
-    printf("OK!\n");
-    return true;
+    if (p != NULL && buscaCPF(list, p->cpf) != NULL)
+    {
+        printf("------------\n");
+        printf("Pessoa de nome: %s\n", p->nome);
+        printf("CPF: %d\n", p->cpf);
+        printf("Num. de doses aplicadas: %d\n", p->nDoses);
+        printf("------------\n");
+    }
+    else
+    {
+        printf("------------\n");
+        printf("Pessoa de nome: null\n");
+        printf("CPF: null\n");
+        printf("Num. de doses aplicadas: null\n");
+        printf("------------\n");
+    }
 }
-return false; */
+void imprimeLista(Pessoa *lst)
+{
+    Pessoa *p;
+    /*
+    Nessa estrutura inicializo a minha lista apontando para o
+    próximo  elemento , pois se colocar p = lst ele acaba imprimindo a cabeça
+    que não possuí conteúdo relevante.
+    */
+    for (p = lst->prox; p != NULL; p = p->prox)
+    {
+        imprimePessoa(p);
+    }
+}
 
-/*  Pessoa *p, *q;
- p = lst;
- q = lst->prox;
- while (q != NULL && q->cpf != cpf)
- {
-     p = q;
-     q = q->prox;
- }
- if (q != NULL)
- {
-     p->prox = q->prox;
-     free(q);
-     return true;
- } */
-//}
+void insere(Pessoa *lst, char *nome, int cpf)
+{
+    Pessoa *celula;
+    celula = (Pessoa *)malloc(sizeof(Pessoa)); // Criei um espaço para recber o conteúdo
+    strcpy(celula->nome, nome);
+    celula->cpf = cpf;
+    celula->nDoses = 0;
+
+    celula->prox = lst->prox;
+    list->prox = celula;
+}
+
 bool removePorNome(Pessoa *lst, char *nome)
 {
     Pessoa *ant = NULL;
@@ -239,7 +194,19 @@ bool incrementaDosesPorNome(Pessoa *lst, char *nome)
 
     return false;
 }
+void limpalista(Pessoa *lst)
+{
+    Pessoa *p = lst->prox;
+    while (p != NULL)
+    {
+        Pessoa *lixo = p;
+        p = p->prox;
 
+        free(lixo);
+    }
+    list->prox = NULL;
+    free(lst);
+}
 int main()
 {
 
@@ -258,78 +225,64 @@ int main()
         scanf("%d", &cpf);
         insere(list, nome, cpf);
     }
-    // Ler as operações a serem realizadas na lista
 
-    // Teste pra ver se vindo NULL
-    /* char name[100] = "Kevin";
-    aux = buscaNome(list, name); */
-    /* if (aux != NULL)
-        printf(" O Nome DA BUSCA FOI ACHADO %s\n", aux->nome);
-    else
-        printf("%p ", aux); */
-
-    /*imprimir - i: Essa opção requisitar a impressão de uma pessoa
-    • remover: - r: Essa opção sinaliza a remoção de uma pessoa da lista
-    • incrementar doses - d: Essa opção sinaliza o incremento de número de doses de uma
-    pessoa da lista
-    */
-    // printf("\nANTES DA REMOCAO \n");
-    // imprimeLista(list);
-    // incrementaDosesPorCPF(list, 123);
-    // incrementaDosesPorNome(list, name);
-
-    // incrementaDosesPorCPF(list, 123);
-    // scanf("%c", &op);
-    /* scanf("%c", &op);
-    scanf("%c", &op2); */
-    printf("OPERACAO 1 - DOSE , REMOCAO OU IMPRESSAO\n");
     char op, op2;
     scanf(" %c", &op);
 
     do
     {
-        printf("OPERACAO 2 - BUSCA POR NOME OU CPF\n");
 
         scanf(" %c", &op2);
-        if (op == 'd' && op2 == 'c')
+        switch (op)
         {
-            scanf(" %d", &cpf);
-            incrementaDosesPorCPF(list, cpf);
-        }
-        else if (op == 'd' && op2 == 'n')
-        {
-            scanf(" %[^\n]", nome);
-            incrementaDosesPorNome(list, nome);
-        }
-        else if (op == 'i' && op2 == 'c')
-        {
-            scanf(" %d", &cpf);
-            aux = buscaCPF(list, cpf);
-            imprimePessoa(aux);
-        }
-        else if (op == 'i' && op2 == 'n')
-        {
-            scanf(" %[^\n]", nome);
-            aux = buscaNome(list, nome);
-            imprimePessoa(aux);
-        }
-        else if (op == 'r', op2 == 'n')
-        {
-            scanf(" %[^\n]", nome);
-            removePorNome(list, nome);
-        }
-        else if (op == 'r', op2 == 'c')
-        {
-            scanf(" %d", &cpf);
-            removePorCPF(list, cpf);
-        }
+        case 'd':
 
-        printf("OPERACAO 1 - DOSE , REMOCAO OU IMPRESSAO\n");
+            if (op2 == 'c')
+            {
+                scanf(" %d", &cpf);
+                incrementaDosesPorCPF(list, cpf);
+            }
+            else if (op2 == 'n')
+            {
+                scanf(" %[^\n]", nome);
+                incrementaDosesPorNome(list, nome);
+            }
+            break;
+        case 'i':
+            if (op2 == 'c')
+            {
+                scanf(" %d", &cpf);
+                aux = buscaCPF(list, cpf);
+                imprimePessoa(aux);
+            }
+            else if (op2 == 'n')
+            {
+                scanf(" %[^\n]", nome);
+                aux = buscaNome(list, nome);
+                imprimePessoa(aux);
+            }
+            break;
+        case 'r':
+            if (op2 == 'n')
+            {
+                scanf(" %[^\n]", nome);
+                removePorNome(list, nome);
+            }
+            else if (op2 == 'c')
+            {
+                scanf(" %d", &cpf);
+                removePorCPF(list, cpf);
+            }
+        default:
+            break;
+        }
         scanf(" %c", &op);
     } while (op != 'x');
 
     // printf("\n DEPOIS DA REMOCAO \n");
     imprimeLista(list);
+    // printf("\nLIMPANDO\n");
+    limpalista(list);
 
     //}
 }
