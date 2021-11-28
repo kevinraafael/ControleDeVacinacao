@@ -103,6 +103,7 @@ bool removePorNome(Pessoa *lst, char *nome)
     Pessoa *ant = NULL;
     Pessoa *aux = lst;
     // p = buscaNome(lst, nome);
+
     while (aux != NULL && (strcmp(aux->nome, nome) != 0))
     {
         ant = aux;
@@ -128,6 +129,7 @@ bool removePorNome(Pessoa *lst, char *nome)
             return true;
         }
     }
+
     printf("FAIL!\n");
     return false;
 }
@@ -136,6 +138,7 @@ bool removePorCPF(Pessoa *lst, int cpf)
     Pessoa *ant = NULL;
     Pessoa *aux = lst;
     // p = buscaNome(lst, nome);
+
     while (aux != NULL && aux->cpf != cpf)
     {
         ant = aux;
@@ -161,6 +164,7 @@ bool removePorCPF(Pessoa *lst, int cpf)
             return true;
         }
     }
+
     printf("FAIL!\n");
     return false;
 }
@@ -213,11 +217,11 @@ int main()
     // Alocando espaço para  a minha lista
     list = (Pessoa *)malloc(sizeof(Pessoa));
     list->prox = NULL;
-    Pessoa *aux;
+    Pessoa *aux = (Pessoa *)malloc(sizeof(Pessoa));
     // Declarando variáveis a serem uitlizadas
-    char nome[101];
-    int cpf;
-    int nPessoas;
+    char nome[101] = "";
+    int cpf = 0;
+    int nPessoas = 0;
     scanf("%d", &nPessoas);
     for (int i = 0; i < nPessoas; i++)
     {
@@ -282,6 +286,8 @@ int main()
     // printf("\n DEPOIS DA REMOCAO \n");
     imprimeLista(list);
     // printf("\nLIMPANDO\n");
+    aux = NULL;
+
     limpalista(list);
 
     //}
