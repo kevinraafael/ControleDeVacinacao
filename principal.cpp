@@ -283,9 +283,7 @@ int main()
         scanf(" %c", &op);
     } while (op != 'x');
 
-    // printf("\n DEPOIS DA REMOCAO \n");
     imprimeLista(list);
-    // printf("\nLIMPANDO\n");
     aux = NULL;
 
     limpalista(list);
